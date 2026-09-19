@@ -1,28 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getProduct, type Product } from "@/lib/products";
 import AddToCartButton from "@/components/AddToCartButton";
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  category: string;
-  image: string;
-};
-
-async function getProduct(id: string): Promise<Product | null> {
-  try {
-    const res = await fetch(`https://fakestoreapi.com/products/${id}`, {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return null;
-    const text = await res.text();
-    return text ? JSON.parse(text) : null;
-  } catch {
-    return null;
-  }
-}
 
 export default async function ProductPage({
   params,

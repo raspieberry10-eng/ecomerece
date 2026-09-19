@@ -1,12 +1,5 @@
 import Link from "next/link";
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-  image: string;
-};
+import { getProducts, type Product } from "@/lib/products";
 
 const categories = [
   { name: "Men's clothing", value: "men's clothing" },
@@ -14,51 +7,6 @@ const categories = [
   { name: "Jewelery", value: "jewelery" },
   { name: "Electronics", value: "electronics" },
 ];
-
-const fallbackProducts: Product[] = [
-  {
-    id: 1,
-    title: "Fjallraven Backpack",
-    price: 109.95,
-    category: "men's clothing",
-    image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-  },
-  {
-    id: 2,
-    title: "Mens Casual Premium Slim Fit T-Shirts",
-    price: 22.3,
-    category: "men's clothing",
-    image: "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png",
-  },
-  {
-    id: 3,
-    title: "Gold Petite Micropave",
-    price: 168,
-    category: "jewelery",
-    image: "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
-  },
-  {
-    id: 4,
-    title: "WD 2TB Portable External Hard Drive",
-    price: 64,
-    category: "electronics",
-    image: "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_.jpg",
-  },
-];
-
-// Free online API with real product pictures.
-// Later, replace this URL with your own Express API, e.g. http://localhost:5000/api/products
-async function getProducts(): Promise<Product[]> {
-  try {
-    const res = await fetch("https://fakestoreapi.com/products", {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return fallbackProducts;
-    return await res.json();
-  } catch {
-    return fallbackProducts;
-  }
-}
 
 function ProductCard({ product }: { product: Product }) {
   return (

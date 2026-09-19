@@ -1,12 +1,5 @@
 import Link from "next/link";
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  category: string;
-  image: string;
-};
+import { getProducts, type Product } from "@/lib/products";
 
 type SearchParams = Record<string, string | string[] | undefined>;
 
@@ -26,19 +19,6 @@ const sortOptions = [
   { label: "Price: high to low", value: "price-desc" },
   { label: "Name: A to Z", value: "name" },
 ];
-
-// Later, replace this URL with your own Express API, e.g. http://localhost:5000/api/products
-async function getProducts(): Promise<Product[]> {
-  try {
-    const res = await fetch("https://fakestoreapi.com/products", {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return [];
-    return await res.json();
-  } catch {
-    return [];
-  }
-}
 
 function first(value: string | string[] | undefined): string {
   return (Array.isArray(value) ? value[0] : value) ?? "";
